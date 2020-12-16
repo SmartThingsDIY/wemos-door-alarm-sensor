@@ -76,7 +76,6 @@ So we can calculated the distance easily:
 * **Distance L = 1/2 × T × C**
 
 
-
 Hardware Overview: WEMOS R1 D2
 ===============
 <img align="right" src="https://images-na.ssl-images-amazon.com/images/I/61sU-gLZncL._AC_SL1001_.jpg" style="max-width:100%;" height="300">
@@ -103,15 +102,11 @@ No one likes wires hanging around, and so I went ahead looking for a 3D case I c
 
 THE WIRING
 ==========
-The wiring is pretty straightforward. Please follow the diagram bellow. Also, here are some notes that might help you figure it out:
+The **HC-SR04** Ultrasonic Module has 4 pins: Ground, VCC, Trig and Echo.
+The Ground and the VCC pins of the module needs to be connected to the Ground and the 5 volts pins on the Wemos Mini respectively. The trig and echo pins to any Digital I/O pin on the Wemos, in our example we use D5 for Trig and D6 for Echo.
+Please follow the diagram bellow:
 
 <img align="center" src="https://github.com/MecaHumArduino/wemos-water-leak-sensor/blob/main/doc/the_wiring.png?raw=true" style="max-width:100%;" height="411">
-
-
-* **Blue** wire connecting RST and D0: Required to allow the WEMOS board to go to sleep.
-* **Red** wire connecting water sensor to D7: You might be wondering why the water sensor is not directly connected to the 3v3 pin. Well, one commonly known issue with these sensors is their short lifespan when exposed to a moist environment. Having power applied to the probe constantly speeds the rate of corrosion significantly.
-To overcome this, I recommend that you do not power the sensor constantly, but power it only when you take the readings.
-An easy way to accomplish this is to connect the VCC pin to a digital pin of an Arduino and set it to HIGH or LOW as per requirement. So, we'll connect the VCC pin to the digital pin #7 of an Arduino.
 
 Wiring source files are included under [wiring folder](https://github.com/MecaHumArduino/wemos-water-leak-sensor/tree/main/doc/wiring)
 
