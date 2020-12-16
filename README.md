@@ -65,15 +65,13 @@ This small module is perfect for all kind of projects that need distance measure
 
 I will be placing this module on my door where the distance to the wall is fixed while the door is closed, but when opened, the distance between the door and the wall obviously increases. This increase in distance will be detected by the HC-SR04 module which will trigger the alarm
 
-HC-SR04 working principle:
+**HC-SR04 working principle:**
+
 <img align="right" src="https://m.media-amazon.com/images/S/aplus-media/sc/5ce209b0-d545-4471-b5e2-4b8ecf071ceb.__CR0,0,300,300_PT0_SX300_V1___.jpg" style="max-width:100%;" height="250">
-Pull the Trig pin to high level for more than 10us impulse, the module start ranging.
-
-The module automatically sends eight 40KHz square wave to detect whether a signal is returned.
-
-Finished ranging, If you find an object in front, Echo pin will be high level, and based on the different distance, it will take the different duration of high level.
-
-So we can calculated the distance easily. The distance = ((Duration of high level)*(Sonic :340m/s))/2. Distance L = 1/2 × T × C
+The module automatically sends eight 40KHz square wave to detect whether a signal is returned, if an object is detected, Echo pin will be high level, and based on the different distance, it will take the different duration of high level
+So we can calculated the distance easily:
+* The distance = ((Duration of high level) * (Sonic :340m/s)) / 2
+* **Distance L = 1/2 × T × C**
 
 Hardware Overview: WEMOS R1 D2
 ===============
