@@ -65,9 +65,10 @@ This small module is perfect for all kind of projects that need distance measure
 
 I will be placing this module on my door where the distance to the wall is fixed while the door is closed, but when opened, the distance between the door and the wall obviously increases. This increase in distance will be detected by the HC-SR04 module which will trigger the alarm
 
-**HC-SR04 working principle:**
 
 <img align="left" src="https://m.media-amazon.com/images/S/aplus-media/sc/5ce209b0-d545-4471-b5e2-4b8ecf071ceb.__CR0,0,300,300_PT0_SX300_V1___.jpg" style="max-width:100%;" height="250">
+
+**HC-SR04 working principle:**
 The module automatically sends eight 40KHz square wave to detect whether a signal is returned, if an object is detected, Echo pin will be high level, and based on the different distance, it will take the different duration of high level
 So we can calculated the distance easily:
 
@@ -75,9 +76,10 @@ So we can calculated the distance easily:
 * **Distance L = 1/2 × T × C**
 
 
+
 Hardware Overview: WEMOS R1 D2
 ===============
-<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/61sU-gLZncL._AC_SL1001_.jpg" style="max-width:100%;" height="400">
+<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/61sU-gLZncL._AC_SL1001_.jpg" style="max-width:100%;" height="300">
 
 I've decided to use the [WEMOS R1 D2](https://www.amazon.com/Sensor-Module-Detection-Surface-Arduino%EF%BC%8810pcs%EF%BC%89/dp/B07THDH7Y4/ref=sr_1_7?dchild=1&keywords=6+Pack+Water+Level+Sensor%2C+Droplet+Depth+Detection+Sensor+for+Arduino&sr=8-7) microchip for this project because it has a small size that saves space and can easily fit in a printable 3D case, but also because of a few reasons:
 * It has an Analog pin
@@ -88,11 +90,16 @@ I've decided to use the [WEMOS R1 D2](https://www.amazon.com/Sensor-Module-Detec
 
 Hardware Overview: LiPo Battery
 ===============
-<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/31jNdqR1-yL._AC_.jpg" style="max-width:100%;" height="200">
+<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/31jNdqR1-yL._AC_.jpg" style="max-width:100%;" height="150">
 
 A Lithium Polymer battery, or more correctly Lithium-ion Polymer battery (abbreviated as **LiPo**, **LIP**, **Li-poly**, **lithium-poly** and others), is a rechargeable battery of lithium-ion technology using a polymer electrolyte instead of a liquid electrolyte. High conductivity semisolid (gel) polymers form this electrolyte. These batteries provide higher specific energy than other lithium battery types and are used in applications where weight is a critical feature, such as mobile devices, radio-controlled aircraft and some electric vehicles.
 
 I had purchased this set of [5 batteries with a charger](https://www.amazon.ca/gp/product/B0795F139D) from Amazon for under $15 and been using them for a [previous project](https://github.com/MecaHumArduino/wemos-water-leak-sensor) without a problem, so that shall be my go to battery for this project as well.
+
+3D PRINTED CASE
+==========
+No one likes wires hanging around, and so I went ahead looking for a 3D case I can use for this project and luckily found [this one on Thingiverse](https://www.thingiverse.com/thing:2550726) so that's what I'll be using
+
 
 THE WIRING
 ==========
@@ -107,10 +114,6 @@ To overcome this, I recommend that you do not power the sensor constantly, but p
 An easy way to accomplish this is to connect the VCC pin to a digital pin of an Arduino and set it to HIGH or LOW as per requirement. So, we'll connect the VCC pin to the digital pin #7 of an Arduino.
 
 Wiring source files are included under [wiring folder](https://github.com/MecaHumArduino/wemos-water-leak-sensor/tree/main/doc/wiring)
-
-3D PRINTED CASE
-==========
-No one likes wires hanging around, and so I included the source and STL files for the 3D case I prepared for this project. All of it is under [3d folder](https://github.com/MecaHumArduino/wemos-water-leak-sensor/tree/main/doc/3d) folder and you can do whatever the heck you want with it.
 
 THE CODE
 ========
