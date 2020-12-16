@@ -31,10 +31,10 @@ So without further ado, let's start with a list of all hardware components, Apps
 ⚡️ COMPONENTS AND SUPPLIES
 =====
 
-<img align="right" src="https://imgaz1.staticbg.com/thumb/large/oaupload/banggood/images/C8/38/4d9de07a-5bb8-4522-85d6-bdbe7011ae1e.jpg" style="max-width:100%;" height="400">
+<img align="right" src="https://camo.githubusercontent.com/57ff718ea8c8c9b2e0509fe98f4a37096c85b5cc9d0da1f301255006e75b3385/68747470733a2f2f696d616765732d6e612e73736c2d696d616765732d616d617a6f6e2e636f6d2f696d616765732f492f343138427069687a4f384c2e6a7067" style="max-width:100%;" height="400">
 
 *   [WEMOS D1 R2 (ESP8266 ESP-12F)](https://www.banggood.com/Geekcreit-D1-mini-V2_2_0-WIFI-Internet-Development-Board-Based-ESP8266-4MB-FLASH-ESP-12S-Chip-p-1143874.html?cur_warehouse=CN&rmmds=search/)
-*   [HC-SR04 Ultrasonic Distance Measuring](https://www.banggood.com/Wholesale-Geekcreit-Ultrasonic-Module-HC-SR04-Distance-Measuring-Ranging-Transducers-Sensor-DC-5V-2-450cm-p-40313.html?cur_warehouse=CN&rmmds=search/)
+*   [HC-SR04 Ultrasonic Sensor](https://www.banggood.com/Wholesale-Geekcreit-Ultrasonic-Module-HC-SR04-Distance-Measuring-Ranging-Transducers-Sensor-DC-5V-2-450cm-p-40313.html?cur_warehouse=CN&rmmds=search/)
 *   [5 LiPo Batteries And Charger](https://www.amazon.ca/gp/product/B0795F139D)
 *   [Spade 2P Cable Lead Plug](https://www.amazon.ca/gp/product/B07YQY9V6F/)
 *   [Solder Kit](https://www.amazon.ca/-/fr/gp/product/B01N46T138/)
@@ -55,22 +55,25 @@ So without further ado, let's start with a list of all hardware components, Apps
 *   [ESP8266WiFi](https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html)
 *   [PubSubClient](https://www.arduinolibraries.info/libraries/pub-sub-client)
 
-Hardware Overview: HC-SR04 Ultrasonic
+Hardware Overview: HC-SR04 Ultrasonic Sensor
 ===============
-<img align="right" src="https://github.com/MecaHumArduino/wemos-water-leak-sensor/blob/main/doc/Water-Level-Sensor-Working.gif?raw=true" style="max-width:100%;" height="350">
+<img align="right" src="https://imgaz1.staticbg.com/thumb/large/oaupload/banggood/images/C8/38/4d9de07a-5bb8-4522-85d6-bdbe7011ae1e.jpg" style="max-width:100%;" height="350">
 
-This [Water Level Sensor Module](https://www.amazon.com/Sensor-Module-Detection-Surface-Arduino%EF%BC%8810pcs%EF%BC%89/dp/B07THDH7Y4/ref=sr_1_7?dchild=1&keywords=6+Pack+Water+Level+Sensor%2C+Droplet+Depth+Detection+Sensor+for+Arduino&sr=8-7) has a series of ten exposed copper traces, five of which are power traces and five are sense traces.
-These traces are interlaced so that there is one sense trace between every two power traces.
-Usually these traces are not connected but are bridged by water when submerged
+The Ultrasonic Module HC-SR04 can measure the distance to an object by using echo. It can measure the distance between the sensor and the object by the time from the sound wave of a specific frequency to the time when the sound wave is heard to bounce back
 
-The working of the water level sensor is pretty straightforward: The series of exposed parallel conductors, together acts as a variable resistor (just like a potentiometer) whose resistance varies according to the water level.
-The change in resistance corresponds to the distance from the top of the sensor to the surface of the water.
+This small module is perfect for all kind of projects that need distance measurements, e.g. avoiding obstacles. It provides 2cm-500cm non-contact measurement function with a ranging hight accuracy that can reach to 3mm
 
-The resistance is inversely proportional to the height of the water:
-* The more water the sensor is immersed in, results in better conductivity and will result in a lower resistance.
-* The less water the sensor is immersed in, results in poor conductivity and will result in a higher resistance.
+I will be placing this module on my door where the distance to the wall is fixed while the door is closed, but when opened, the distance between the door and the wall obviously increases. This increase in distance will be detected by the HC-SR04 module which will trigger the alarm
 
-The sensor produces an output voltage according to the resistance, which by measuring we can determine the water level.
+HC-SR04 working principle:
+<img align="right" src="https://m.media-amazon.com/images/S/aplus-media/sc/5ce209b0-d545-4471-b5e2-4b8ecf071ceb.__CR0,0,300,300_PT0_SX300_V1___.jpg" style="max-width:100%;" height="250">
+Pull the Trig pin to high level for more than 10us impulse, the module start ranging.
+
+The module automatically sends eight 40KHz square wave to detect whether a signal is returned.
+
+Finished ranging, If you find an object in front, Echo pin will be high level, and based on the different distance, it will take the different duration of high level.
+
+So we can calculated the distance easily. The distance = ((Duration of high level)*(Sonic :340m/s))/2. Distance L = 1/2 × T × C
 
 Hardware Overview: WEMOS R1 D2
 ===============
