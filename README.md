@@ -67,11 +67,13 @@ I will be placing this module on my door where the distance to the wall is fixed
 
 **HC-SR04 working principle:**
 
-<img align="right" src="https://m.media-amazon.com/images/S/aplus-media/sc/5ce209b0-d545-4471-b5e2-4b8ecf071ceb.__CR0,0,300,300_PT0_SX300_V1___.jpg" style="max-width:100%;" height="250">
+<img align="left" src="https://m.media-amazon.com/images/S/aplus-media/sc/5ce209b0-d545-4471-b5e2-4b8ecf071ceb.__CR0,0,300,300_PT0_SX300_V1___.jpg" style="max-width:100%;" height="250">
 The module automatically sends eight 40KHz square wave to detect whether a signal is returned, if an object is detected, Echo pin will be high level, and based on the different distance, it will take the different duration of high level
 So we can calculated the distance easily:
+
 * The distance = ((Duration of high level) * (Sonic :340m/s)) / 2
 * **Distance L = 1/2 × T × C**
+
 
 Hardware Overview: WEMOS R1 D2
 ===============
@@ -83,6 +85,14 @@ I've decided to use the [WEMOS R1 D2](https://www.amazon.com/Sensor-Module-Detec
 * It supports OTA online: Updating code Over-The-Air
 * 4MB of memory which more than enough for our needs
 * And because it's compatible with Arduino IDE, making the programming easy
+
+Hardware Overview: LiPo Battery
+===============
+<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/31jNdqR1-yL._AC_.jpg" style="max-width:100%;" height="200">
+
+A Lithium Polymer battery, or more correctly Lithium-ion Polymer battery (abbreviated as **LiPo**, **LIP**, **Li-poly**, **lithium-poly** and others), is a rechargeable battery of lithium-ion technology using a polymer electrolyte instead of a liquid electrolyte. High conductivity semisolid (gel) polymers form this electrolyte. These batteries provide higher specific energy than other lithium battery types and are used in applications where weight is a critical feature, such as mobile devices, radio-controlled aircraft and some electric vehicles.
+
+I had purchased this set of [5 batteries with a charger](https://www.amazon.ca/gp/product/B0795F139D) from Amazon for under $15 and been using them for a [previous project](https://github.com/MecaHumArduino/wemos-water-leak-sensor) without a problem, so that shall be my go to battery for this project as well.
 
 THE WIRING
 ==========
