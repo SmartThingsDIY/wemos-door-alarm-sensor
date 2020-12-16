@@ -106,7 +106,7 @@ The **HC-SR04** Ultrasonic Module has 4 pins: Ground, VCC, Trig and Echo.
 The Ground and the VCC pins of the module needs to be connected to the Ground and the 5 volts pins on the Wemos Mini respectively. The trig and echo pins to any Digital I/O pin on the Wemos, in our example we use D5 for Trig and D6 for Echo.
 Please follow the diagram bellow:
 
-<img align="center" src="https://github.com/MecaHumArduino/wemos-water-leak-sensor/blob/main/doc/the_wiring.png?raw=true" style="max-width:100%;" height="411">
+<img align="center" src="https://github.com/MecaHumArduino/wemos-door-alarm-sensor/blob/main/doc/wiring/wemos-and-hcsr04-wiring.png?raw=true" style="max-width:100%;" height="411">
 
 Wiring source files are included under [wiring folder](https://github.com/MecaHumArduino/wemos-water-leak-sensor/tree/main/doc/wiring)
 
