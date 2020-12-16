@@ -162,10 +162,10 @@ void loop()
             Serial.print("Door open: ");
             Serial.println(distance);
         }
-        connectToWiFi();                  // 1- connect to WiFi
-        connectToHass();                  // 2- connect to Home Assistant MQTT broker
-        publishAlarmToHass(distance);     // 3- publish the distance on the MQTT topic
+        connectToWiFi();                // 1- connect to WiFi
+        connectToHass();                // 2- connect to Home Assistant MQTT broker
+        publishAlarmToHass(distance);   // 3- publish the distance on the MQTT topic
     }
 
-    delay(3000);
+    delay(3000); // 3 seconds
 }

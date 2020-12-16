@@ -1,28 +1,28 @@
-# DIY Water Leakage Sensor For Home Assistant...
+# DIY Door Alarm Sensor For Home Assistant...
 Or any MQTT based system
 
 About
 =====
-This article accompanies the "DIY Water Leakage Sensor" YouTube series. it contains the code, libraries, diagrams, 3D print files and more information that I promised in the videos: [**DIY Water Leakage Sensor For Home Assistant**](https://youtu.be/6FVJRkGDwwI)
+This article accompanies the "DIY Door Alarm Sensor" YouTube series. It contains the code, libraries, diagrams, 3D print files and more information that I promised in the videos: [**DIY Door Alarm Sensor**](https://youtu.be/6FVJRkGDwwI)
 
 BUY VS BUILD
 ========
-You can always go ahead and buy a ready-to-use a solution like this [CONNECTIFY Smart Water Leakage Sensor](https://www.amazon.ca/gp/product/B07TDCTQDN/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) but these devices usually would only work with their respective apps, and some of them would require you to pay extra in order to receive push notifications. Now, this article and its video provide a step-by-step guide and links to everything you need to build the same device for **3x cheaper** than the cheapest option available.
+You can always go ahead and buy a ready-to-use a solution like this [Ring Alarm Contact Sensor ](https://www.amazon.ca/Ring-Alarm-Contact-Sensor/dp/B07ZB2QLC2) but these devices usually would only work with their respective apps, and some of them would require you to pay extra in order to receive push notifications, or enable cloud usage. Now, this article and its video provide a step-by-step guide and links to everything you need to build a similar device that accomplishes the same thing.
 
-<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/51BVI1yCFPL._AC_SL1001_.jpg" style="max-width:100%;" height="400">
+<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/51edNlMRAjL._SL1000_.jpg" style="max-width:100%;" height="400">
 
-In addition to detecting water leakage and sending notifications. This device:
+In addition to detecting when a door or window are open and sending notifications. This device:
 * Goes to deep sleep and only wakes up every 30sec (configurable) to save energy
-* When water is detected, only then, the connection to WiFi is made, again, to save energy
+* When motion is detected, only then, the connection to WiFi is made, again, to save energy
 * Has a removable LiPo battery for easy of charge
-* Clever wiring of the water sensor to extend it's life expectancy (more details in the wiring section)
+* Clever wiring of the motion sensor to extend its life expectancy (more details in the wiring section)
 * Sends notifications (and any type of data) to an MQTT topic, enlarging the possibilities of what you can do with the data
 
 In my case, I will be sending the notifications to my [Home Assistant](https://www.home-assistant.io/) setup in order to trigger a pre-defined automation that:
 * Pushes actionable notifications to our phone devices through [Home Assistant companion apps](https://companion.home-assistant.io/)
 * Converts notification alarm to a text (Alexa TTS capabilities) and play it through the Amazon Echo devices around the house
 * And just in case we managed to miss these, it turns the kitchen LED light to RED informing us of an emergency
-* Repeats every 5min until someone explicitly acknowledged the issue.
+* Repeats every 5min until someone explicitly acknowledges the issue.
 
 The beauty of this is I can decide to trigger any type of notifications in the future such as playing an alarm sound or sending SMS notifications...
 
@@ -31,10 +31,10 @@ So without further ado, let's start with a list of all hardware components, Apps
 ⚡️ COMPONENTS AND SUPPLIES
 =====
 
-<img align="right" src="https://images-na.ssl-images-amazon.com/images/I/418BpihzO8L.jpg" style="max-width:100%;" height="400">
+<img align="right" src="https://imgaz1.staticbg.com/thumb/large/oaupload/banggood/images/C8/38/4d9de07a-5bb8-4522-85d6-bdbe7011ae1e.jpg" style="max-width:100%;" height="400">
 
-*   [WEMOS D1 R2 (ESP8266 ESP-12F)](https://www.amazon.com/IZOKEE-NodeMcu-Internet-Development-Compatible/dp/B076F52NQD/)
-*   [Water Level Sensor](https://www.amazon.com/Sensor-Module-Detection-Surface-Arduino%EF%BC%8810pcs%EF%BC%89/dp/B07THDH7Y4/)
+*   [WEMOS D1 R2 (ESP8266 ESP-12F)](https://www.banggood.com/Geekcreit-D1-mini-V2_2_0-WIFI-Internet-Development-Board-Based-ESP8266-4MB-FLASH-ESP-12S-Chip-p-1143874.html?cur_warehouse=CN&rmmds=search/)
+*   [HC-SR04 Ultrasonic Distance Measuring](https://www.banggood.com/Wholesale-Geekcreit-Ultrasonic-Module-HC-SR04-Distance-Measuring-Ranging-Transducers-Sensor-DC-5V-2-450cm-p-40313.html?cur_warehouse=CN&rmmds=search/)
 *   [5 LiPo Batteries And Charger](https://www.amazon.ca/gp/product/B0795F139D)
 *   [Spade 2P Cable Lead Plug](https://www.amazon.ca/gp/product/B07YQY9V6F/)
 *   [Solder Kit](https://www.amazon.ca/-/fr/gp/product/B01N46T138/)
@@ -54,10 +54,8 @@ So without further ado, let's start with a list of all hardware components, Apps
 =====
 *   [ESP8266WiFi](https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html)
 *   [PubSubClient](https://www.arduinolibraries.info/libraries/pub-sub-client)
-*   [Ticker](https://www.arduino.cc/reference/en/libraries/ticker/)
 
-
-Hardware Overview: Water Sensor
+Hardware Overview: HC-SR04 Ultrasonic
 ===============
 <img align="right" src="https://github.com/MecaHumArduino/wemos-water-leak-sensor/blob/main/doc/Water-Level-Sensor-Working.gif?raw=true" style="max-width:100%;" height="350">
 
