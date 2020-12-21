@@ -167,5 +167,5 @@ void loop()
         publishAlarmToHass(distance);   // 3- publish the distance on the MQTT topic
     }
 
-    delay(3000); // 3 seconds
+    delay(5000); // 5 seconds
 }
