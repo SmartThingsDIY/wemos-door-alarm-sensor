@@ -5,8 +5,8 @@
 
 #define DEBUG true // switch to "false" for production
 
-#define sensorTrigPin D5
-#define sensorEchoPin D6
+#define sensorTrigPin D6
+#define sensorEchoPin D5
 #define NB_TRYWIFI 20 // WiFi connection retries
 
 WiFiClient espClient;
@@ -16,6 +16,7 @@ long duration, distance; // Duration used to calculate distance
 // **************
 void loop();
 void setup();
+void killWiFi();
 long readSensor();
 void connectToHass();
 void connectToWiFi();
@@ -77,6 +78,16 @@ void connectToWiFi()
     {
         Serial.println("Connected to Wi-Fi");
     }
+}
+
+/**
+ * ensure that WiFi is shut down in  an orderly fashion
+ */
+void killWiFi()
+{
+    WiFi.disconnect();
+    WiFi.mode(WIFI_OFF);
+    WiFi.forceSleepBegin();
 }
 
 /**
@@ -152,19 +163,25 @@ void loop()
 {
     distance = readSensor();
 
-    if (distance < 15) {
-        if (DEBUG == true) {
+    if (distance < 15)
+    {
+        if (DEBUG == true)
+        {
             Serial.print("Door closed: ");
             Serial.println(distance);
         }
-    } else {
-        if (DEBUG == true) {
+    }
+    else
+    {
+        if (DEBUG == true)
+        {
             Serial.print("Door open: ");
             Serial.println(distance);
         }
-        connectToWiFi();                // 1- connect to WiFi
-        connectToHass();                // 2- connect to Home Assistant MQTT broker
-        publishAlarmToHass(distance);   // 3- publish the distance on the MQTT topic
+        connectToWiFi();              // 1- connect to WiFi
+        connectToHass();              // 2- connect to Home Assistant MQTT broker
+        publishAlarmToHass(distance); // 3- publish the distance on the MQTT topic
+        killWiFi();                   // 4- Disconnect WiFi
     }
 
     delay(5000); // 5 seconds
