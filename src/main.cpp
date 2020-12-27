@@ -3,11 +3,11 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define DEBUG true // switch to "false" for production
-
-#define sensorTrigPin D6
-#define sensorEchoPin D5
+#define DEBUG true    // switch to "false" before final installation
 #define NB_TRYWIFI 20 // WiFi connection retries
+
+#define sensorEchoPin D5
+#define sensorTrigPin D6
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -16,7 +16,7 @@ long duration, distance; // Duration used to calculate distance
 // **************
 void loop();
 void setup();
-void killWiFi();
+void disconnectWiFi();
 long readSensor();
 void connectToHass();
 void connectToWiFi();
@@ -36,12 +36,6 @@ long readSensor()
     digitalWrite(sensorTrigPin, LOW);
 
     duration = pulseIn(sensorEchoPin, HIGH);
-
-    if (DEBUG == true)
-    {
-        Serial.print("distance: ");
-        Serial.println(duration / 58.2);
-    }
 
     return duration / 58.2; // The echo time is converted into cm
 }
@@ -81,13 +75,19 @@ void connectToWiFi()
 }
 
 /**
- * ensure that WiFi is shut down in  an orderly fashion
+ * ensure that WiFi is shut down in an orderly fashion
+ * This is done to save energy
  */
-void killWiFi()
+void disconnectWiFi()
 {
     WiFi.disconnect();
     WiFi.mode(WIFI_OFF);
     WiFi.forceSleepBegin();
+
+    if (DEBUG == true)
+    {
+        Serial.println("Switching WiFi Off");
+    }
 }
 
 /**
@@ -155,6 +155,8 @@ void setup()
 
     Serial.begin(9600);
 
+    disconnectWiFi(); // no need to switch WiFi on unless we need it
+
     pinMode(sensorTrigPin, OUTPUT);
     pinMode(sensorEchoPin, INPUT);
 }
@@ -167,22 +169,24 @@ void loop()
     {
         if (DEBUG == true)
         {
-            Serial.print("Door closed: ");
-            Serial.println(distance);
+            Serial.print("Distance:");
+            Serial.print(distance);
+            Serial.println(" - Door is closed");
         }
     }
     else
     {
         if (DEBUG == true)
         {
-            Serial.print("Door open: ");
-            Serial.println(distance);
+            Serial.print("Distance:");
+            Serial.print(distance);
+            Serial.println(" - Door is open");
         }
         connectToWiFi();              // 1- connect to WiFi
         connectToHass();              // 2- connect to Home Assistant MQTT broker
         publishAlarmToHass(distance); // 3- publish the distance on the MQTT topic
-        killWiFi();                   // 4- Disconnect WiFi
+        disconnectWiFi();             // 4- Disconnect WiFi to save energy
     }
 
-    delay(5000); // 5 seconds
+    delay(4000); // 4 seconds
 }
