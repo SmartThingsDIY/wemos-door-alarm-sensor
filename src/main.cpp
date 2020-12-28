@@ -135,13 +135,19 @@ void connectToHass()
  */
 void publishAlarmToHass(long distance)
 {
+    bool publishState;
+
     // publish the reading to Hass through MQTT
-    client.publish(MQTT_PUBLISH_TOPIC, String(distance).c_str(), true);
+    publishState = client.publish(MQTT_PUBLISH_TOPIC, String(distance).c_str(), true);
     client.loop();
 
     if (DEBUG == true)
     {
-        Serial.println("Alarm sent to Hass!");
+        Serial.println("Alarm sent to Hass.");
+        Serial.print("state: ");
+        Serial.println(publishState);
+        Serial.print("data: ");
+        Serial.println(String(distance).c_str());
     }
 }
 
@@ -169,8 +175,9 @@ void loop()
     {
         if (DEBUG == true)
         {
-            Serial.print("Distance:");
+            Serial.print("Distance: ");
             Serial.print(distance);
+            Serial.print("cm");
             Serial.println(" - Door is closed");
         }
     }
