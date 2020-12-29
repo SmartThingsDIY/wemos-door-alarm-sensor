@@ -115,75 +115,54 @@ THE CODE
 
 The code within `main.cpp` file is well documented, but I'll try to explain the concepts and ideas behind the code in this section. But first of all, copy the file `secrets_copy.h` to `secrets.h` and edit its content with your details: WiFi credentials, Home Assistant details...
 
-The sketch begins with the creation of a few objects we'll need along the way: `Ticker` that calls repeating actions and which we will use to put the board to sleep and then wake up. `WiFiClient` that we use to connect to Wifi and `PubSubClient` that we use to send data through MQTT
+The sketch begins with the creation of a few objects we'll need along the way: `WiFiClient` that we use to connect to Wifi and `PubSubClient` that we use to send data through MQTT
 
 ```cpp
-Ticker ticker;
 WiFiClient espClient;
 PubSubClient client(espClient);
 ```
 
-Then we declare a few variables like the Arduino pins for the sensor reading and power, as long as the sleep duration and number of tries we aim to do while connecting to WiFi because we want to avoid draining the battery trying to connect to WiFi indefinitely.
+Then we declare a few variables like the pins used to send the wave and measure the time it take to bounce back, as long as the number of tries we aim to do while connecting to WiFi because we want to avoid draining the battery trying to connect to WiFi indefinitely.
 
 ```cpp
-#define sensorPower D7 // Power pin
-#define sensorPin A0 // Analog Sensor pins
-#define durationSleep 30 // seconds
 #define NB_TRYWIFI 20 // WiFi connection retries
+
+#define sensorEchoPin D5
+#define sensorTrigPin D6
 ```
 
-As you might have noticed, there is no `loop()` function in this sketch, only a `setup()` function, and that's because instead of executing some commands in a loop fashion like most Arduino projects, this board is programmed to go to sleep until its wake up moment arrives, in which case, it will executing everything until `setup()` function before going back to sleep again. Here is how it's programmed:
+The `setup()` function make sure the WiFi is disconnected when the board first boots up, and that's because WiFi consumes a lot of energy, so we want to make sure it's only activated when required:
 
 ```cpp
 void setup()
 {
-    // only print debug messages to serial if we're in debug mode
-    if (DEBUG == true) {
-        Serial.print("Waking up ");
-    }
+    Serial.begin(9600);
 
-    // Step 1: Set D7 pin as an output pin ready to receive power
-    pinMode(sensorPower, OUTPUT); // Set D7 as an OUTPUT
-    digitalWrite(sensorPower, LOW);
+    disconnectWiFi(); // no need to switch WiFi on unless we need it
 
-    ...
-
-    // Step 2: Wake the sensor up & get a reading
-    int waterLevel = readSensor();
-
-    ...
-
-    // Step 3: If water is detected then
-    if (waterLevel > 1) {
-        connectToWiFi(); // 1- connect to WiFi
-        connectToHass(); // 2- connect to Home Assistant MQTT broker
-        publishAlarmToHass(waterLevel); // 3- publish the water level on the MQTT topic
-    }
-
-    // Step 4: Go back to sleep for the next 30 sec
-    ESP.deepSleep(durationSleep * 1000000);
-
+    pinMode(sensorTrigPin, OUTPUT);
+    pinMode(sensorEchoPin, INPUT);
 }
 ```
 
-The function that reads the water level is straightforward and well documented as well:
+The function that reads the distance is straightforward:
 
 ```cpp
-int readSensor()
+long readSensor()
 {
-    // Step 1 : Turn the sensor ON by providing power to D7 pin
-	digitalWrite(sensorPower, HIGH);
-    // Step 2 : Wait for a just little bit
-	delay(10);
-    // Step 3 : Perform the reading
-	sensorData = analogRead(sensorPin);
+    digitalWrite(sensorTrigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(sensorTrigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(sensorTrigPin, LOW);
 
-    // Step 4 : Turn the sensor OFF
-	digitalWrite(sensorPower, LOW);
+    duration = pulseIn(sensorEchoPin, HIGH);
 
-  return sensorData;
+    return duration / 58.2; // The echo time is converted into cm
 }
 ```
+
+Make sure you have installed an MQTT broker in your HomeAssistant setup beforehand. You can start here: https://www.home-assistant.io/docs/mqtt/broker#run-your-own
 
 Finally
 ======
