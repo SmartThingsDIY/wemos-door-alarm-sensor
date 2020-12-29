@@ -12,17 +12,14 @@ You can always go ahead and buy a ready-to-use a solution like this [Ring Alarm 
 <img align="right" src="https://images-na.ssl-images-amazon.com/images/I/51edNlMRAjL._SL1000_.jpg" style="max-width:100%;" height="400">
 
 In addition to detecting when a door or window are open and sending notifications. This device:
-* Goes to deep sleep and only wakes up every 30sec (configurable) to save energy
-* When motion is detected, only then, the connection to WiFi is made, again, to save energy
-* Has a removable LiPo battery for easy of charge
-* Clever wiring of the motion sensor to extend its life expectancy (more details in the wiring section)
+* When motion is detected (door opened), only then, the connection to WiFi is made, again, to save energy
+* Has a removable LiPo battery for easy recharging
 * Sends notifications (and any type of data) to an MQTT topic, enlarging the possibilities of what you can do with the data
 
 In my case, I will be sending the notifications to my [Home Assistant](https://www.home-assistant.io/) setup in order to trigger a pre-defined automation that:
 * Pushes actionable notifications to our phone devices through [Home Assistant companion apps](https://companion.home-assistant.io/)
 * Converts notification alarm to a text (Alexa TTS capabilities) and play it through the Amazon Echo devices around the house
-* And just in case we managed to miss these, it turns the kitchen LED light to RED informing us of an emergency
-* Repeats every 5min until someone explicitly acknowledges the issue.
+* Turns on the front door lights if it's after sunset and turns them off 2 minutes later
 
 The beauty of this is I can decide to trigger any type of notifications in the future such as playing an alarm sound or sending SMS notifications...
 
