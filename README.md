@@ -3,7 +3,7 @@ Or any MQTT based system
 
 About
 =====
-This article accompanies the "DIY Door Alarm Sensor" YouTube series. It contains the code, libraries, diagrams, 3D print files and more information that I promised in the videos: [**DIY Door Alarm Sensor**](https://youtu.be/6FVJRkGDwwI)
+This article accompanies the "DIY Door Alarm Sensor" YouTube series. It contains the code, libraries, diagrams, 3D print files and more information that I promised in the videos: [**DIY Door Alarm Sensor**](https://youtu.be/HyOCwBuub9o)
 
 BUY VS BUILD
 ========
